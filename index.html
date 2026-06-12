@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>北海道滑雪 2026 進度儀表板</title>
+<style>
+  :root{
+    --bg:#0e1116; --card:#171c24; --card2:#1f2630; --line:#2a3340;
+    --txt:#e8ecf1; --mut:#9aa7b6; --hint:#6b7888;
+    --xm:#ec6f9e; --lg:#4aa3ff; --lt:#7bc043; --xn:#f5a524;
+    --ok:#34c759; --warn:#f5a524; --bad:#ff5a5f;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{margin:0;background:var(--bg);color:var(--txt);
+    font-family:-apple-system,"Segoe UI","Noto Sans TC",sans-serif;line-height:1.6;
+    padding:16px;max-width:760px;margin:0 auto}
+  h1{font-size:22px;font-weight:600;margin:4px 0 2px}
+  .sub{color:var(--mut);font-size:13px;margin-bottom:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:16px;margin-bottom:14px}
+  .card h2{font-size:16px;font-weight:600;margin:0 0 12px;display:flex;align-items:center;gap:8px;justify-content:space-between}
+  .cd{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .cd .big{font-size:40px;font-weight:700;color:var(--xm)}
+  .cd .lab{color:var(--mut);font-size:13px}
+  .prog{height:8px;background:var(--card2);border-radius:8px;overflow:hidden;margin-top:10px}
+  .prog>i{display:block;height:100%;background:var(--xm);transition:width .4s}
+  .mem{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+  .chip{display:flex;align-items:center;gap:6px;background:var(--card2);
+    padding:5px 11px;border-radius:20px;font-size:13px}
+  .dot{width:11px;height:11px;border-radius:50%}
+  .day{display:flex;gap:12px;padding:11px 0;border-top:1px solid var(--line)}
+  .day:first-of-type{border-top:none}
+  .day .d{min-width:54px;text-align:center}
+  .day .d b{display:block;font-size:15px}
+  .day .d span{font-size:11px;color:var(--hint)}
+  .day .body b{font-size:14px}
+  .day .body p{margin:3px 0 0;font-size:13px;color:var(--mut)}
+  .pin{font-size:11px;color:var(--xn);font-weight:600}
+  .row{display:flex;justify-content:space-between;gap:10px;padding:7px 0;
+    border-top:1px dashed var(--line);font-size:14px}
+  .row:first-child{border-top:none}
+  .row .v{color:var(--mut);text-align:right;white-space:nowrap}
+  .total{margin-top:10px;padding:12px;background:var(--card2);border-radius:10px;
+    display:flex;justify-content:space-between;font-weight:700;font-size:16px}
+  .al{display:flex;gap:10px;padding:10px 0;border-top:1px solid var(--line);font-size:13.5px}
+  .al:first-of-type{border-top:none}
+  .al .ic{font-size:18px;line-height:1.3}
+  .al b{font-weight:600}
+  .al p{margin:2px 0 0;color:var(--mut)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:520px){.grid2{grid-template-columns:1fr}}
+  .stat{background:var(--card2);border-radius:10px;padding:12px}
+  .stat .n{font-size:24px;font-weight:700}
+  .stat .l{font-size:12px;color:var(--mut)}
+  .miss{color:var(--bad)} .good{color:var(--ok)}
+  .tk{display:flex;align-items:center;gap:8px;padding:7px 0;border-top:1px solid var(--line);font-size:13.5px}
+  .tk:first-of-type{border-top:none}
+  .tk .s{font-size:11px;padding:2px 8px;border-radius:20px;white-space:nowrap}
+  .s-todo{background:#3a2a14;color:var(--warn)} .s-done{background:#13351f;color:var(--ok)}
+  .tk .who{color:var(--hint);font-size:12px;margin-left:auto;white-space:nowrap}
+  .footer{color:var(--hint);font-size:12px;text-align:center;margin:8px 0 20px}
+  .rf{font-size:12px;color:var(--lg);background:none;border:1px solid var(--line);
+    border-radius:8px;padding:4px 10px;cursor:pointer}
+  .ld{color:var(--hint);font-size:13px;padding:8px 0}
+  a{color:var(--lg)}
+</style>
+</head>
+<body>
+  <h1>北海道滑雪 2026 ⛷️</h1>
+  <div class="sub">旭川據點 · 2026/12/27 – 2027/1/2（6 晚）· 學妹、龍哥、老頭、小乃</div>
+
+  <div class="card">
+    <div class="cd">
+      <span class="big" id="cdNum">—</span>
+      <span class="lab">天後出發 · 12/27（日）落地新千歲</span>
+    </div>
+    <div class="prog"><i id="cdBar" style="width:0%"></i></div>
+    <div class="mem">
+      <span class="chip"><span class="dot" style="background:var(--xm)"></span>學妹 玫瑰粉</span>
+      <span class="chip"><span class="dot" style="background:var(--lg)"></span>龍哥 天藍</span>
+      <span class="chip"><span class="dot" style="background:var(--lt)"></span>老頭 草綠</span>
+      <span class="chip"><span class="dot" style="background:var(--xn)"></span>小乃 琥珀橘</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span>📋 籌備進度</span><button class="rf" onclick="loadAll()">↻ 重新整理</button></h2>
+    <div class="grid2">
+      <div class="stat"><div class="n" id="stTodo">—</div><div class="l">待辦完成</div></div>
+      <div class="stat"><div class="n" id="stDays">—</div><div class="l">滑雪天數</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🗓️ 每日行程</h2>
+    <div id="itin"><div class="ld">載入中…</div></div>
+  </div>
+
+  <div class="card">
+    <h2>✅ 待辦清單</h2>
+    <div class="prog" style="margin-bottom:10px"><i id="todoBar" style="width:0%;background:var(--ok)"></i></div>
+    <div id="todo"><div class="ld">載入中…</div></div>
+  </div>
+
+  <div class="card">
+    <h2>💴 每人粗估預算</h2>
+    <div class="row"><span>JR 新千歲⇄旭川來回</span><span class="v">約 ¥11,600</span></div>
+    <div class="row"><span>纜車券 × 5 天（含富良野）</span><span class="v">約 ¥24,000</span></div>
+    <div class="row"><span>雪具租借 ¥5,000 × 5</span><span class="v">約 ¥25,000</span></div>
+    <div class="row"><span>住宿 6 晚（2 人 1 間均攤）</span><span class="v">約 ¥36,000</span></div>
+    <div class="row"><span>餐飲 ¥5,000 × 7 天</span><span class="v">約 ¥35,000</span></div>
+    <div class="row"><span>保險 + 泡湯/伴手禮雜支</span><span class="v">約 ¥7,500</span></div>
+    <div class="row"><span>租車+油+過路+停車（均攤）</span><span class="v">待估</span></div>
+    <div class="total"><span>每人約</span><span>¥139,000＋租車</span></div>
+    <div class="sub" style="margin:8px 0 0">≈ NT$29,000＋租車。機票各付各的。共同墊付走 Splitwise。詳細與敏感資料見私人 Looker 儀表板。</div>
+  </div>
+
+  <div class="card">
+    <h2>⚠️ 提醒</h2>
+    <div class="al"><span class="ic">🏨</span><div><b>住宿趁早訂</b><p>跨年那幾晚會漲，6 月正是訂免費取消方案的窗口。</p></div></div>
+    <div class="al"><span class="ic">🚗</span><div><b>誰開車要先辦國際駕照</b><p>台灣監理站辦理需時間，記得帶台灣駕照正本。</p></div></div>
+    <div class="al"><span class="ic">🎟️</span><div><b>年末年始連假</b><p>12/29–1/3 雪場、纜車券、雪具、課程都偏滿，早查早訂。</p></div></div>
+    <div class="al"><span class="ic">⏱️</span><div><b>回程 buffer 偏緊</b><p>1/2 旭川 12:00 出發約 14:20 到新千歲，距 NH70 16:30 約 2hr，冬季易誤點。</p></div></div>
+  </div>
+
+  <div class="footer">公開進度看板（不含敏感資料）· 資料來源：北海道滑雪行程表（發布的分頁）· <span id="upd">—</span></div>
+
+<script>
+  // 由「發布到網路」取得的 CSV 連結（只發布非敏感分頁）。等你提供後填入：
+  var PUB = {
+    itin: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRS5JvLiM1rlskh4_13Z0NEtbe8tuDZwhb33Quon3szoBU7jepRLE0OLf4qzitI9A/pub?single=true&output=csv&gid=1157090351",
+    todo: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRS5JvLiM1rlskh4_13Z0NEtbe8tuDZwhb33Quon3szoBU7jepRLE0OLf4qzitI9A/pub?single=true&output=csv&gid=639515683"
+  };
+
+  function parseCSV(t){
+    var rows=[],row=[],cur="",q=false;
+    for(var i=0;i<t.length;i++){var c=t[i];
+      if(q){ if(c=='"'){ if(t[i+1]=='"'){cur+='"';i++;} else q=false; } else cur+=c; }
+      else { if(c=='"')q=true; else if(c==',') {row.push(cur);cur="";}
+        else if(c=='\n'){row.push(cur);rows.push(row);row=[];cur="";}
+        else if(c=='\r'){} else cur+=c; } }
+    if(cur!==""||row.length){row.push(cur);rows.push(row);}
+    return rows.filter(function(r){return r.some(function(x){return x!=="";});});
+  }
+  // skip = 標題列數（這些分頁第1列是分頁標題，第2列才是欄位名 → skip=1）
+  async function getRows(url,skip){
+    if(!url||url.indexOf("PASTE_")===0) throw new Error("尚未設定資料來源連結");
+    var r=await fetch(url);
+    if(!r.ok) throw new Error("HTTP "+r.status);
+    var rows=parseCSV(await r.text());
+    rows=rows.slice(skip||0);
+    var head=rows.shift()||[];
+    return rows.map(function(r){var o={};head.forEach(function(h,i){o[(h||"").trim()]=(r[i]||"").trim();});return o;});
+  }
+
+  function countdown(){
+    var dep=new Date(2026,11,27), start=new Date(2026,5,11), now=new Date();
+    var days=Math.max(0,Math.ceil((dep-now)/86400000));
+    document.getElementById('cdNum').textContent=days;
+    var done=Math.min(100,Math.max(0,(1-(dep-now)/(dep-start))*100));
+    document.getElementById('cdBar').style.width=done.toFixed(0)+'%';
+  }
+  async function loadItin(){
+    try{
+      var d=await getRows(PUB.itin,1);
+      d=d.filter(function(r){return /\d+\/\d+/.test(r['日期']||'');});
+      document.getElementById('stDays').textContent='5';
+      document.getElementById('itin').innerHTML=d.map(function(r){
+        var fur=/富良野/.test(r['重點']||'')?' <span class="pin">· 富良野</span>':'';
+        return '<div class="day"><div class="d"><b>'+(r['日期']||'')+'</b><span>'+(r['星期']||'')+
+          '</span></div><div class="body"><b>'+(r['重點']||'')+fur+'</b><p>'+(r['安排']||'')+'</p></div></div>';
+      }).join('')||'<div class="ld">沒有資料</div>';
+    }catch(e){ document.getElementById('itin').innerHTML='<div class="ld">讀取失敗：'+e.message+'</div>'; }
+  }
+  async function loadTodo(){
+    try{
+      var d=await getRows(PUB.todo,1);
+      d=d.filter(function(r){return /^\d+$/.test(r['#']||'');});
+      var done=d.filter(function(r){var s=r['狀態']||'';return s&&s!=='待辦';});
+      var el=document.getElementById('stTodo');
+      el.textContent=done.length+' / '+d.length;
+      el.className='n '+(done.length?'good':'miss');
+      document.getElementById('todoBar').style.width=(d.length?done.length/d.length*100:0)+'%';
+      document.getElementById('todo').innerHTML=d.map(function(r){
+        var s=r['狀態']||'', isDone=s&&s!=='待辦';
+        return '<div class="tk"><span class="s '+(isDone?'s-done':'s-todo')+'">'+(s||'待辦')+'</span>'+
+          '<span>'+(r['待辦事項']||'')+'</span>'+(r['負責人']?'<span class="who">'+r['負責人']+'</span>':'')+'</div>';
+      }).join('')||'<div class="ld">沒有資料</div>';
+    }catch(e){ document.getElementById('todo').innerHTML='<div class="ld">讀取失敗：'+e.message+'</div>'; }
+  }
+  function loadAll(){
+    countdown(); loadItin(); loadTodo();
+    document.getElementById('upd').textContent='更新於 '+new Date().toLocaleString('zh-TW');
+  }
+  loadAll();
+</script>
+</body>
+</html>
