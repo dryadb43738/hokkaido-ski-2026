@@ -88,8 +88,16 @@
     <h2><span>📋 籌備進度</span><button class="rf" onclick="loadAll()">↻ 重新整理</button></h2>
     <div class="grid2">
       <div class="stat"><div class="n" id="stTodo">—</div><div class="l">待辦完成</div></div>
+      <div class="stat"><div class="n" id="stFlight">—</div><div class="l">航班已填</div></div>
       <div class="stat"><div class="n" id="stDays">—</div><div class="l">滑雪天數</div></div>
     </div>
+  </div>
+
+  <div class="card">
+    <h2>✈️ 航班填寫進度</h2>
+    <div class="prog" style="margin-bottom:10px"><i id="flightBar" style="width:0%;background:var(--lg)"></i></div>
+    <div id="flight"><div class="ld">載入中…</div></div>
+    <div class="sub" style="margin:8px 0 0">只顯示誰已填／未填，不含班號與時間。航班明細請看 Google 表（不公開）。</div>
   </div>
 
   <div class="card">
@@ -130,7 +138,9 @@
   // 由「發布到網路」取得的 CSV 連結（只發布非敏感分頁）。等你提供後填入：
   var PUB = {
     itin: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRS5JvLiM1rlskh4_13Z0NEtbe8tuDZwhb33Quon3szoBU7jepRLE0OLf4qzitI9A/pub?single=true&output=csv&gid=1157090351",
-    todo: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRS5JvLiM1rlskh4_13Z0NEtbe8tuDZwhb33Quon3szoBU7jepRLE0OLf4qzitI9A/pub?single=true&output=csv&gid=639515683"
+    todo: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRS5JvLiM1rlskh4_13Z0NEtbe8tuDZwhb33Quon3szoBU7jepRLE0OLf4qzitI9A/pub?single=true&output=csv&gid=639515683",
+    // 「航班進度」分頁：只含 團員/狀態 兩欄（不含班號時間）。
+    flight: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRS5JvLiM1rlskh4_13Z0NEtbe8tuDZwhb33Quon3szoBU7jepRLE0OLf4qzitI9A/pub?gid=1659406530&single=true&output=csv"
   };
 
   function parseCSV(t){
@@ -189,8 +199,29 @@
       }).join('')||'<div class="ld">沒有資料</div>';
     }catch(e){ document.getElementById('todo').innerHTML='<div class="ld">讀取失敗：'+e.message+'</div>'; }
   }
+  async function loadFlight(){
+    var box=document.getElementById('flight'), st=document.getElementById('stFlight');
+    try{
+      var d=await getRows(PUB.flight,0);   // 此分頁第1列即欄名（團員/狀態）
+      d=d.filter(function(r){return (r['團員']||'').trim();});
+      var ok=function(s){return /已填|已購|完成|ok/i.test(s||'');};
+      var done=d.filter(function(r){return ok(r['狀態']);});
+      st.textContent=done.length+' / '+d.length;
+      st.className='n '+(d.length&&done.length===d.length?'good':'miss');
+      document.getElementById('flightBar').style.width=(d.length?done.length/d.length*100:0)+'%';
+      document.getElementById('flightBar').style.background=(d.length&&done.length===d.length)?'var(--ok)':'var(--lg)';
+      box.innerHTML=d.map(function(r){
+        var done=ok(r['狀態']);
+        return '<div class="tk"><span class="s '+(done?'s-done':'s-todo')+'">'+(done?'已填':'待填')+
+          '</span><span>'+(r['團員']||'')+'</span></div>';
+      }).join('')||'<div class="ld">沒有資料</div>';
+    }catch(e){
+      st.textContent='—';
+      box.innerHTML='<div class="ld">航班進度尚未設定資料來源（在 PUB.flight 貼上「航班進度」分頁的發布連結）</div>';
+    }
+  }
   function loadAll(){
-    countdown(); loadItin(); loadTodo();
+    countdown(); loadItin(); loadTodo(); loadFlight();
     document.getElementById('upd').textContent='更新於 '+new Date().toLocaleString('zh-TW');
   }
   loadAll();
