@@ -101,14 +101,6 @@
   </div>
 
   <div class="card">
-    <h2>✈️ 航班填寫進度</h2>
-    <div class="prog" style="margin-bottom:10px"><i id="flightBar" style="width:0%;background:var(--lg)"></i></div>
-    <div id="flightSum" class="sub" style="margin:0 0 10px"></div>
-    <div id="flight"><div class="ld">載入中…</div></div>
-    <div class="sub" style="margin:8px 0 0">只顯示誰已填／未填，不含班號與時間。航班明細請看 Google 表（不公開）。</div>
-  </div>
-
-  <div class="card">
     <h2>🗓️ 每日行程 <span style="color:var(--mut);font-weight:400;font-size:13px">· 滑雪 <b id="stDays" style="color:var(--xm)">5</b> 天</span></h2>
     <div id="itin"><div class="ld">載入中…</div></div>
   </div>
@@ -208,44 +200,23 @@
       }).join('')||'<div class="ld">沒有資料</div>';
     }catch(e){ document.getElementById('todo').innerHTML='<div class="ld">讀取失敗：'+e.message+'</div>'; }
   }
-  async function loadFlight(){
-    var box=document.getElementById('flight'), st=document.getElementById('stFlight');
-    try{
-      var d=await getRows(PUB.flight,0);   // 此分頁第1列即欄名（團員/狀態）
-      d=d.filter(function(r){return (r['團員']||'').trim();});
-      var ok=function(s){return /已填|已購|完成|ok/i.test(s||'');};
-      var done=d.filter(function(r){return ok(r['狀態']);});
-      st.textContent=done.length+' / '+d.length;
-      st.className='n '+(d.length&&done.length===d.length?'good':'miss');
-      document.getElementById('flightBar').style.width=(d.length?done.length/d.length*100:0)+'%';
-      document.getElementById('flightBar').style.background=(d.length&&done.length===d.length)?'var(--ok)':'var(--lg)';
-      box.innerHTML=d.map(function(r){
-        var done=ok(r['狀態']);
-        return '<div class="tk"><span class="s '+(done?'s-done':'s-todo')+'">'+(done?'已填':'待填')+
-          '</span><span>'+(r['團員']||'')+'</span></div>';
-      }).join('')||'<div class="ld">沒有資料</div>';
-      var names=function(arr){return arr.map(function(r){return r['團員'];}).join('、')||'—';};
-      var todo=d.filter(function(r){return !ok(r['狀態']);});
-      document.getElementById('flightSum').innerHTML=
-        '<span class="good">✓ 已填：'+names(done)+'</span>　·　<span class="miss">待填：'+names(todo)+'</span>';
-    }catch(e){
-      st.textContent='—';
-      document.getElementById('flightSum').textContent='';
-      box.innerHTML='<div class="ld">航班進度尚未設定資料來源（在 PUB.flight 貼上「航班進度」分頁的發布連結）</div>';
-    }
-  }
   async function loadOwners(){
     var box=document.getElementById('owners');
     var CATS=['住宿','交通','票券','雪具','課程','餐飲'];  // 視為「單一負責人分工」的分類
     try{
       var rows=[];
-      // ✈️ 航班（各自填）— 取自航班進度分頁
+      // ✈️ 航班（各自填）— 取自航班進度分頁，顯示四人名字＋紅綠燈
       try{
         var f=await getRows(PUB.flight,0);
         f=f.filter(function(r){return (r['團員']||'').trim();});
-        var fok=f.filter(function(r){return /已填|已購|完成|ok/i.test(r['狀態']||'');});
+        var ok=function(s){return /已填|已購|完成|ok/i.test(s||'');};
+        var fok=f.filter(function(r){return ok(r['狀態']);});
+        var stF=document.getElementById('stFlight');   // 同步更新籌備進度的「航班已填」
+        if(stF){ stF.textContent=fok.length+' / '+f.length; stF.className='n '+(f.length&&fok.length===f.length?'good':'miss'); }
+        var lights=f.map(function(r){return (r['團員']||'')+(ok(r['狀態'])?'🟢':'🔴');}).join('　');
         rows.push('<div class="tk"><span class="s '+(f.length&&fok.length===f.length?'s-done':'s-todo')+'">'+
-          fok.length+' / '+f.length+' 已填</span><span>✈️ 航班</span><span class="who">各自填</span></div>');
+          fok.length+' / '+f.length+'</span><span>✈️ 航班</span>'+
+          '<span class="who" style="white-space:normal">'+lights+'</span></div>');
       }catch(e){}
       // 其餘單一負責人分工 — 取自待辦分頁
       var d=await getRows(PUB.todo,1);
@@ -263,7 +234,7 @@
     }catch(e){ box.innerHTML='<div class="ld">讀取失敗：'+e.message+'</div>'; }
   }
   function loadAll(){
-    countdown(); loadItin(); loadTodo(); loadFlight(); loadOwners();
+    countdown(); loadItin(); loadTodo(); loadOwners();
     document.getElementById('upd').textContent='更新於 '+new Date().toLocaleString('zh-TW');
   }
   loadAll();
