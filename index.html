@@ -200,6 +200,8 @@
       }).join('')||'<div class="ld">沒有資料</div>';
     }catch(e){ document.getElementById('todo').innerHTML='<div class="ld">讀取失敗：'+e.message+'</div>'; }
   }
+  var MEM={'學妹':'var(--xm)','龍哥':'var(--lg)','老頭':'var(--lt)','小乃':'var(--xn)'};
+  function memColor(n){return MEM[(n||'').trim()]||'';}
   async function loadOwners(){
     var box=document.getElementById('owners');
     var CATS=['住宿','交通','票券','雪具','課程','餐飲'];  // 視為「單一負責人分工」的分類
@@ -213,7 +215,10 @@
         var fok=f.filter(function(r){return ok(r['狀態']);});
         var stF=document.getElementById('stFlight');   // 同步更新籌備進度的「航班已填」
         if(stF){ stF.textContent=fok.length+' / '+f.length; stF.className='n '+(f.length&&fok.length===f.length?'good':'miss'); }
-        var lights=f.map(function(r){return (r['團員']||'')+(ok(r['狀態'])?'🟢':'🔴');}).join('　');
+        var lights=f.map(function(r){
+          var nm=(r['團員']||'').trim(), c=memColor(nm);
+          return '<span style="color:'+(c||'inherit')+'">'+nm+'</span>'+(ok(r['狀態'])?'🟢':'🔴');
+        }).join('　');
         rows.push('<div class="tk"><span class="s '+(f.length&&fok.length===f.length?'s-done':'s-todo')+'">'+
           fok.length+' / '+f.length+'</span><span>✈️ 航班</span>'+
           '<span class="who" style="white-space:normal">'+lights+'</span></div>');
@@ -226,9 +231,10 @@
       document.getElementById('ownSum').innerHTML='已指派負責人 <b'+(assigned.length===d.length&&d.length?' class="good"':' class="miss"')+'>'+assigned.length+' / '+d.length+'</b>';
       rows=rows.concat(d.map(function(r){
         var s=r['狀態']||'', isDone=s&&s!=='待辦', who=(r['負責人']||'').trim();
+        var wc=who?(memColor(who)||''):'var(--bad)';
         return '<div class="tk"><span class="s '+(isDone?'s-done':'s-todo')+'">'+(s||'待辦')+'</span>'+
           '<span>'+(r['待辦事項']||'')+'</span>'+
-          '<span class="who"'+(who?'':' style="color:var(--bad)"')+'>'+(who||'未指派')+'</span></div>';
+          '<span class="who"'+(wc?(' style="color:'+wc+'"'):'')+'>'+(who||'未指派')+'</span></div>';
       }));
       box.innerHTML=rows.join('')||'<div class="ld">沒有資料</div>';
     }catch(e){ box.innerHTML='<div class="ld">讀取失敗：'+e.message+'</div>'; }
