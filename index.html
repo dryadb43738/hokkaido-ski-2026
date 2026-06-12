@@ -93,6 +93,14 @@
   </div>
 
   <div class="card">
+    <h2>🧑‍🤝‍🧑 分工 · 負責人</h2>
+    <div class="prog" style="margin-bottom:10px"><i id="ownBar" style="width:0%;background:var(--xn)"></i></div>
+    <div id="ownSum" class="sub" style="margin:0 0 10px"></div>
+    <div id="owners"><div class="ld">載入中…</div></div>
+    <div class="sub" style="margin:8px 0 0">航班為各自填寫；其餘指派一位負責人——在 Google 表「待辦」的「負責人」欄填名字，這裡會自動帶入。</div>
+  </div>
+
+  <div class="card">
     <h2>✈️ 航班填寫進度</h2>
     <div class="prog" style="margin-bottom:10px"><i id="flightBar" style="width:0%;background:var(--lg)"></i></div>
     <div id="flightSum" class="sub" style="margin:0 0 10px"></div>
@@ -226,8 +234,36 @@
       box.innerHTML='<div class="ld">航班進度尚未設定資料來源（在 PUB.flight 貼上「航班進度」分頁的發布連結）</div>';
     }
   }
+  async function loadOwners(){
+    var box=document.getElementById('owners');
+    var CATS=['住宿','交通','票券','雪具','課程','餐飲'];  // 視為「單一負責人分工」的分類
+    try{
+      var rows=[];
+      // ✈️ 航班（各自填）— 取自航班進度分頁
+      try{
+        var f=await getRows(PUB.flight,0);
+        f=f.filter(function(r){return (r['團員']||'').trim();});
+        var fok=f.filter(function(r){return /已填|已購|完成|ok/i.test(r['狀態']||'');});
+        rows.push('<div class="tk"><span class="s '+(f.length&&fok.length===f.length?'s-done':'s-todo')+'">'+
+          fok.length+' / '+f.length+' 已填</span><span>✈️ 航班</span><span class="who">各自填</span></div>');
+      }catch(e){}
+      // 其餘單一負責人分工 — 取自待辦分頁
+      var d=await getRows(PUB.todo,1);
+      d=d.filter(function(r){return /^\d+$/.test(r['#']||'') && CATS.indexOf((r['分類']||'').trim())>=0;});
+      var assigned=d.filter(function(r){return (r['負責人']||'').trim();});
+      document.getElementById('ownBar').style.width=(d.length?assigned.length/d.length*100:0)+'%';
+      document.getElementById('ownSum').innerHTML='已指派負責人 <b'+(assigned.length===d.length&&d.length?' class="good"':' class="miss"')+'>'+assigned.length+' / '+d.length+'</b>';
+      rows=rows.concat(d.map(function(r){
+        var s=r['狀態']||'', isDone=s&&s!=='待辦', who=(r['負責人']||'').trim();
+        return '<div class="tk"><span class="s '+(isDone?'s-done':'s-todo')+'">'+(s||'待辦')+'</span>'+
+          '<span>'+(r['待辦事項']||'')+'</span>'+
+          '<span class="who"'+(who?'':' style="color:var(--bad)"')+'>'+(who||'未指派')+'</span></div>';
+      }));
+      box.innerHTML=rows.join('')||'<div class="ld">沒有資料</div>';
+    }catch(e){ box.innerHTML='<div class="ld">讀取失敗：'+e.message+'</div>'; }
+  }
   function loadAll(){
-    countdown(); loadItin(); loadTodo(); loadFlight();
+    countdown(); loadItin(); loadTodo(); loadFlight(); loadOwners();
     document.getElementById('upd').textContent='更新於 '+new Date().toLocaleString('zh-TW');
   }
   loadAll();
