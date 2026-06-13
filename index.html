@@ -1,243 +1,270 @@
+<!-- @dsCard group="Website" viewport="1280x760" name="旭川滑雪 2026 網站" subtitle="Cinematic scroll story · 鳥瞰開場 / 抵達 / 雪場點亮 / 日夜行程" -->
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>北海道滑雪 2026 進度儀表板</title>
-<style>
-  :root{
-    --bg:#0e1116; --card:#171c24; --card2:#1f2630; --line:#2a3340;
-    --txt:#e8ecf1; --mut:#9aa7b6; --hint:#6b7888;
-    --xm:#ec6f9e; --lg:#4aa3ff; --lt:#7bc043; --xn:#f5a524;
-    --ok:#34c759; --warn:#f5a524; --bad:#ff5a5f;
-  }
-  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-  body{margin:0;background:var(--bg);color:var(--txt);
-    font-family:-apple-system,"Segoe UI","Noto Sans TC",sans-serif;line-height:1.6;
-    padding:16px;max-width:760px;margin:0 auto}
-  h1{font-size:22px;font-weight:600;margin:4px 0 2px}
-  .sub{color:var(--mut);font-size:13px;margin-bottom:16px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;
-    padding:16px;margin-bottom:14px}
-  .card h2{font-size:16px;font-weight:600;margin:0 0 12px;display:flex;align-items:center;gap:8px;justify-content:space-between}
-  .cd{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
-  .cd .big{font-size:40px;font-weight:700;color:var(--xm)}
-  .cd .lab{color:var(--mut);font-size:13px}
-  .prog{height:8px;background:var(--card2);border-radius:8px;overflow:hidden;margin-top:10px}
-  .prog>i{display:block;height:100%;background:var(--xm);transition:width .4s}
-  .mem{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
-  .chip{display:flex;align-items:center;gap:6px;background:var(--card2);
-    padding:5px 11px;border-radius:20px;font-size:13px}
-  .dot{width:11px;height:11px;border-radius:50%}
-  .day{display:flex;gap:12px;padding:11px 0;border-top:1px solid var(--line)}
-  .day:first-of-type{border-top:none}
-  .day .d{min-width:54px;text-align:center}
-  .day .d b{display:block;font-size:15px}
-  .day .d span{font-size:11px;color:var(--hint)}
-  .day .body b{font-size:14px}
-  .day .body p{margin:3px 0 0;font-size:13px;color:var(--mut)}
-  .pin{font-size:11px;color:var(--xn);font-weight:600}
-  .row{display:flex;justify-content:space-between;gap:10px;padding:7px 0;
-    border-top:1px dashed var(--line);font-size:14px}
-  .row:first-child{border-top:none}
-  .row .v{color:var(--mut);text-align:right;white-space:nowrap}
-  .total{margin-top:10px;padding:12px;background:var(--card2);border-radius:10px;
-    display:flex;justify-content:space-between;font-weight:700;font-size:16px}
-  .al{display:flex;gap:10px;padding:10px 0;border-top:1px solid var(--line);font-size:13.5px}
-  .al:first-of-type{border-top:none}
-  .al .ic{font-size:18px;line-height:1.3}
-  .al b{font-weight:600}
-  .al p{margin:2px 0 0;color:var(--mut)}
-  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  @media(max-width:520px){.grid2{grid-template-columns:1fr}}
-  .stat{background:var(--card2);border-radius:10px;padding:12px}
-  .stat .n{font-size:24px;font-weight:700}
-  .stat .l{font-size:12px;color:var(--mut)}
-  .miss{color:var(--bad)} .good{color:var(--ok)}
-  .tk{display:flex;align-items:center;gap:8px;padding:7px 0;border-top:1px solid var(--line);font-size:13.5px}
-  .tk:first-of-type{border-top:none}
-  .tk .s{font-size:11px;padding:2px 8px;border-radius:20px;white-space:nowrap}
-  .s-todo{background:#3a2a14;color:var(--warn)} .s-done{background:#13351f;color:var(--ok)}
-  .tk .who{color:var(--hint);font-size:12px;margin-left:auto;white-space:nowrap}
-  .footer{color:var(--hint);font-size:12px;text-align:center;margin:8px 0 20px}
-  .rf{font-size:12px;color:var(--lg);background:none;border:1px solid var(--line);
-    border-radius:8px;padding:4px 10px;cursor:pointer}
-  .ld{color:var(--hint);font-size:13px;padding:8px 0}
-  a{color:var(--lg)}
-</style>
+<title>北海道滑雪 2026 · 旭川</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="scenes.css">
 </head>
 <body>
-  <h1>北海道滑雪 2026 ⛷️</h1>
-  <div class="sub">旭川據點 · 2026/12/27 – 2027/1/2（6 晚）· 學妹、龍哥、老頭、小乃</div>
 
-  <div class="card">
-    <div class="cd">
-      <span class="big" id="cdNum">—</span>
-      <span class="lab">天後出發 · 12/27（日）落地新千歲</span>
-    </div>
-    <div class="prog"><i id="cdBar" style="width:0%"></i></div>
-    <div class="mem">
-      <span class="chip"><span class="dot" style="background:var(--xm)"></span>學妹</span>
-      <span class="chip"><span class="dot" style="background:var(--lg)"></span>龍哥</span>
-      <span class="chip"><span class="dot" style="background:var(--lt)"></span>老頭</span>
-      <span class="chip"><span class="dot" style="background:var(--xn)"></span>小乃</span>
-    </div>
-  </div>
+<!-- scroll progress -->
+<div class="scroll-progress" id="scrollProgress"></div>
 
-  <div class="card">
-    <h2><span>📋 籌備進度</span><button class="rf" onclick="loadAll()">↻ 重新整理</button></h2>
-    <div class="grid2">
-      <div class="stat"><div class="n" id="stTodo">—</div><div class="l">待辦完成</div></div>
-      <div class="stat"><div class="n" id="stFlight">—</div><div class="l">航班已填</div></div>
+<!-- nav -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top">
+      <span class="brand-mark" aria-hidden="true">❄</span>
+      <span class="brand-name">北海道滑雪 <span class="brand-year">2026</span></span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#top" data-nav="overview">概要</a>
+      <a href="#resorts" data-nav="resorts">雪場</a>
+      <a href="#itinerary" data-nav="itinerary">行程</a>
+      <a href="#checklist" data-nav="checklist">待辦</a>
+    </nav>
+    <div class="nav-cta">
+      <span class="nav-count mono"><b id="navDays">—</b> 天後出發</span>
+      <a class="btn btn-primary btn-sm" href="#checklist">查看進度</a>
     </div>
   </div>
+</header>
 
-  <div class="card">
-    <h2>🧑‍🤝‍🧑 分工 · 負責人</h2>
-    <div class="prog" style="margin-bottom:10px"><i id="ownBar" style="width:0%;background:var(--xn)"></i></div>
-    <div id="ownSum" class="sub" style="margin:0 0 10px"></div>
-    <div id="owners"><div class="ld">載入中…</div></div>
-    <div class="sub" style="margin:8px 0 0">航班為各自填寫；其餘指派一位負責人——在 Google 表「待辦」的「負責人」欄填名字，這裡會自動帶入。</div>
-  </div>
+<main>
 
-  <div class="card">
-    <h2>🗓️ 每日行程 <span style="color:var(--mut);font-weight:400;font-size:13px">· 滑雪 <b id="stDays" style="color:var(--xm)">5</b> 天</span></h2>
-    <div id="itin"><div class="ld">載入中…</div></div>
-  </div>
+  <!-- ===================== 鳥瞰開場 HERO SCENE ===================== -->
+  <section class="scene" id="top" data-scene="hero" data-screen-label="Hero · 鳥瞰開場" style="height: 360vh;">
+    <div class="scene-sticky">
+      <div class="scene-bg" data-zfrom="1.0" data-zto="1.34" data-yto="-3">
+        <img src="img/hero-road.jpg" alt="北海道雪季山路鳥瞰" fetchpriority="high">
+      </div>
+      <div class="scene-scrim center"></div>
+      <div class="scene-content">
+        <div class="scene-frames">
+          <div class="frame" data-frame="0">
+            <p class="scene-eyebrow">ASAHIKAWA · HOKKAIDO — 2026 WINTER</p>
+            <h1 class="scene-title">北海道滑雪之旅</h1>
+          </div>
+          <div class="frame" data-frame="1">
+            <p class="scene-eyebrow">六晚七天 · 以旭川為據點</p>
+            <p class="scene-date">2026.12.27<span class="dash">—</span>2027.01.02</p>
+          </div>
+          <div class="frame" data-frame="2">
+            <p class="scene-line">一切，從一條雪國的路開始。</p>
+            <p class="scene-sub">串起旭川周邊五座人氣雪場——這裡是我們的行前儀表板：倒數、雪場、行程、待辦，一頁掌握。</p>
+            <div class="scene-actions">
+              <a class="btn btn-white" href="#resorts">看雪場地圖</a>
+              <a class="btn btn-glass" href="#itinerary">每日行程</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="scroll-cue" id="heroCue"><span>SCROLL</span><span class="mouse" aria-hidden="true"></span></div>
+    </div>
+  </section>
 
-  <div class="card">
-    <h2>✅ 待辦清單</h2>
-    <div class="prog" style="margin-bottom:10px"><i id="todoBar" style="width:0%;background:var(--ok)"></i></div>
-    <div id="todo"><div class="ld">載入中…</div></div>
-  </div>
+  <!-- ===================== 概要 OVERVIEW (light) ===================== -->
+  <section class="section overview-band" id="overview" data-screen-label="Overview · 概要">
+    <div class="container">
+      <div class="section-head ov-lead-wrap">
+        <p class="eyebrow mono reveal">THE TRIP / 概要</p>
+        <h2 class="section-title reveal">四個人，一座雪城，跨一場年。</h2>
+        <p class="section-lead reveal">2026/12/27 – 2027/1/2，以旭川為據點，白天滑雪、夜裡泡湯，順道遠征一趟富良野。先把人、天數、預算放上桌。</p>
+      </div>
+      <div class="members reveal" id="heroMembers"></div>
+      <div class="stat-band reveal" id="statBand" style="margin-top: 28px;"></div>
+    </div>
+  </section>
 
-  <div class="card">
-    <h2>💴 每人粗估預算</h2>
-    <div class="row"><span>JR 新千歲⇄旭川來回</span><span class="v">約 ¥11,600</span></div>
-    <div class="row"><span>纜車券 × 5 天（含富良野）</span><span class="v">約 ¥24,000</span></div>
-    <div class="row"><span>雪具租借 ¥5,000 × 5</span><span class="v">約 ¥25,000</span></div>
-    <div class="row"><span>住宿 6 晚（2 人 1 間均攤）</span><span class="v">約 ¥36,000</span></div>
-    <div class="row"><span>餐飲 ¥5,000 × 7 天</span><span class="v">約 ¥35,000</span></div>
-    <div class="row"><span>保險 + 泡湯/伴手禮雜支</span><span class="v">約 ¥7,500</span></div>
-    <div class="row"><span>租車+油+過路+停車（均攤）</span><span class="v">待估</span></div>
-    <div class="total"><span>每人約</span><span>¥139,000＋租車</span></div>
-    <div class="sub" style="margin:8px 0 0">≈ NT$29,000＋租車。機票各付各的。共同墊付走 Splitwise。詳細與敏感資料見私人 Looker 儀表板。</div>
-  </div>
+  <!-- ===================== 抵達 TRANSPORT SCENE ===================== -->
+  <section class="scene" id="transport" data-scene="transport" data-screen-label="Transport · 抵達" style="height: 340vh;">
+    <div class="scene-sticky">
+      <div class="scene-bg" data-zfrom="1.18" data-zto="1.06" data-yto="0">
+        <img src="img/airplane.jpg" alt="ANA 班機停靠新千歲機場雪地停機坪">
+      </div>
+      <div class="scene-scrim"></div>
+      <div class="scene-content">
+        <div class="scene-frames">
+          <div class="frame" data-frame="0">
+            <p class="scene-step">抵達 · 01 / 03</p>
+            <p class="scene-line">降落新千歲。</p>
+          </div>
+          <div class="frame" data-frame="1">
+            <p class="scene-step">抵達 · 02 / 03</p>
+            <p class="scene-line">轉乘 JR 特急，一路向北。</p>
+          </div>
+          <div class="frame" data-frame="2">
+            <p class="scene-step">抵達 · 03 / 03</p>
+            <p class="scene-line">約九十分鐘後，旭川到了。</p>
+            <p class="scene-sub">六晚都住旭川市區——進可攻五座雪場，退可泡湯、逛街、吃拉麵。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <div class="card">
-    <h2>⚠️ 提醒</h2>
-    <div class="al"><span class="ic">🏨</span><div><b>住宿趁早訂</b><p>跨年那幾晚會漲，6 月正是訂免費取消方案的窗口。</p></div></div>
-    <div class="al"><span class="ic">🚗</span><div><b>誰開車要先辦國際駕照</b><p>台灣監理站辦理需時間，記得帶台灣駕照正本。</p></div></div>
-    <div class="al"><span class="ic">🎟️</span><div><b>年末年始連假</b><p>12/29–1/3 雪場、纜車券、雪具、課程都偏滿，早查早訂。</p></div></div>
-    <div class="al"><span class="ic">🎿</span><div><b>雪具：自備 or 租借</b><p>自備者要先辦「雪具寄送」（寄到飯店/雪場），列入待辦；租借者直接上網預約（填身高/腳長/體重）。</p></div></div>
-    <div class="al"><span class="ic">⏱️</span><div><b>回程時間從容</b><p>1/2 退房後約 10:00 出發 → 約 12:30 到新千歲，距 NH70 16:30 約 4hr，buffer 充足；冬季仍建議用乗換案内 App 確認當日班次。</p></div></div>
-  </div>
+  <section class="section section-soft" data-screen-label="Transport facts · 交通">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow mono reveal">GETTING THERE / 交通</p>
+        <h2 class="section-title reveal">怎麼來，怎麼回。</h2>
+      </div>
+      <div class="facts-row" id="factsRow"></div>
+    </div>
+  </section>
 
-  <div class="footer">公開進度看板（不含敏感資料）· 資料來源：北海道滑雪行程表（發布的分頁）· <span id="upd">—</span></div>
+  <!-- ===================== 滑雪 SKI SCENE ===================== -->
+  <section class="scene" data-scene="ski" data-screen-label="Ski · 粉雪" style="height: 340vh;">
+    <div class="scene-sticky">
+      <div class="scene-bg" data-zfrom="1.0" data-zto="1.22" data-yto="-2">
+        <img src="img/ski-powder.jpg" alt="白樺林間滑粉雪">
+      </div>
+      <div class="scene-scrim"></div>
+      <div class="scene-content">
+        <div class="scene-frames">
+          <div class="frame" data-frame="0">
+            <p class="scene-line">這裡的雪，是粉的。</p>
+          </div>
+          <div class="frame" data-frame="1">
+            <p class="scene-line">白樺林間，一道接著一道。</p>
+          </div>
+          <div class="frame" data-frame="2">
+            <p class="scene-line">旭川周邊，五座雪場任你挑。</p>
+            <p class="scene-sub">往下滑，看它們一一在地圖上亮起來。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<script>
-  // 由「發布到網路」取得的 CSV 連結（只發布非敏感分頁）。等你提供後填入：
-  var PUB = {
-    itin: "https://docs.google.com/spreadsheets/d/e/2PACX-1vROPP8Lg2SyGQ43pwdDv4TaSEI3QxbNYLKTawWLOQyKn-CKPVRSe-7UHnnlrMVFi4hI3TY2iFuu5qcR/pub?single=true&output=csv&gid=1157090351",
-    todo: "https://docs.google.com/spreadsheets/d/e/2PACX-1vROPP8Lg2SyGQ43pwdDv4TaSEI3QxbNYLKTawWLOQyKn-CKPVRSe-7UHnnlrMVFi4hI3TY2iFuu5qcR/pub?single=true&output=csv&gid=639515683",
-    // 「航班進度」分頁：只含 團員/狀態 兩欄（不含班號時間）。
-    flight: "https://docs.google.com/spreadsheets/d/e/2PACX-1vROPP8Lg2SyGQ43pwdDv4TaSEI3QxbNYLKTawWLOQyKn-CKPVRSe-7UHnnlrMVFi4hI3TY2iFuu5qcR/pub?gid=1510991736&single=true&output=csv"
-  };
+  <!-- ===================== 雪場 MAP SCENE (pinned, lights up) ===================== -->
+  <section class="scene map-scene" id="resorts" data-scene="map" data-screen-label="Resorts map · 雪場地圖" style="height: 420vh;">
+    <div class="scene-sticky">
+      <div class="map-stage">
+        <figure class="map-figure-c">
+          <div class="map-head-c">
+            <p class="eyebrow mono">SKI RESORTS / 雪場地圖</p>
+            <h2>旭川出發，五座雪場一一點亮。</h2>
+            <p class="progress-note">已點亮 <b id="mapLitCount">0</b> / 5 · 距離與車程皆自旭川市中心估算</p>
+          </div>
+          <div class="map-frame-c" id="mapFrame">
+            <img src="assets/asahikawa-ski-map.jpg" alt="旭川周邊滑雪場地圖" class="map-img" id="mapImg">
+            <svg class="route-svg" id="routeSvg" viewBox="0 0 1536 1024" preserveAspectRatio="none" aria-hidden="true"></svg>
+            <div class="map-overlay" id="mapOverlay"></div>
+          </div>
+        </figure>
+      </div>
+    </div>
+  </section>
 
-  function parseCSV(t){
-    var rows=[],row=[],cur="",q=false;
-    for(var i=0;i<t.length;i++){var c=t[i];
-      if(q){ if(c=='"'){ if(t[i+1]=='"'){cur+='"';i++;} else q=false; } else cur+=c; }
-      else { if(c=='"')q=true; else if(c==',') {row.push(cur);cur="";}
-        else if(c=='\n'){row.push(cur);rows.push(row);row=[];cur="";}
-        else if(c=='\r'){} else cur+=c; } }
-    if(cur!==""||row.length){row.push(cur);rows.push(row);}
-    return rows.filter(function(r){return r.some(function(x){return x!=="";});});
-  }
-  // skip = 標題列數（這些分頁第1列是分頁標題，第2列才是欄位名 → skip=1）
-  async function getRows(url,skip){
-    if(!url||url.indexOf("PASTE_")===0) throw new Error("尚未設定資料來源連結");
-    var r=await fetch(url);
-    if(!r.ok) throw new Error("HTTP "+r.status);
-    var rows=parseCSV(await r.text());
-    rows=rows.slice(skip||0);
-    var head=rows.shift()||[];
-    return rows.map(function(r){var o={};head.forEach(function(h,i){o[(h||"").trim()]=(r[i]||"").trim();});return o;});
-  }
+  <section class="section resort-band" data-screen-label="Resort cards · 雪場卡片">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow mono reveal">FIVE RESORTS / 五座雪場</p>
+        <h2 class="section-title reveal">近的便利，遠的開闊。</h2>
+        <p class="section-lead reveal">將游標移到地圖編號，或往下看細節——資料可後續補充。</p>
+      </div>
+      <div class="resort-grid" id="resortGrid"></div>
+    </div>
+  </section>
 
-  function countdown(){
-    var dep=new Date(2026,11,27), start=new Date(2026,5,11), now=new Date();
-    var days=Math.max(0,Math.ceil((dep-now)/86400000));
-    document.getElementById('cdNum').textContent=days;
-    var done=Math.min(100,Math.max(0,(1-(dep-now)/(dep-start))*100));
-    document.getElementById('cdBar').style.width=done.toFixed(0)+'%';
-  }
-  async function loadItin(){
-    try{
-      var d=await getRows(PUB.itin,1);
-      d=d.filter(function(r){return /\d+\/\d+/.test(r['日期']||'');});
-      document.getElementById('stDays').textContent='5';
-      document.getElementById('itin').innerHTML=d.map(function(r){
-        var fur=/富良野/.test(r['重點']||'')?' <span class="pin">· 富良野</span>':'';
-        return '<div class="day"><div class="d"><b>'+(r['日期']||'')+'</b><span>'+(r['星期']||'')+
-          '</span></div><div class="body"><b>'+(r['重點']||'')+fur+'</b><p>'+(r['安排']||'')+'</p></div></div>';
-      }).join('')||'<div class="ld">沒有資料</div>';
-    }catch(e){ document.getElementById('itin').innerHTML='<div class="ld">讀取失敗：'+e.message+'</div>'; }
-  }
-  async function loadTodo(){
-    try{
-      var d=await getRows(PUB.todo,1);
-      d=d.filter(function(r){return /^\d+$/.test(r['#']||'');});
-      var done=d.filter(function(r){var s=r['狀態']||'';return s&&s!=='待辦';});
-      var el=document.getElementById('stTodo');
-      el.textContent=done.length+' / '+d.length;
-      el.className='n '+(done.length?'good':'miss');
-      document.getElementById('todoBar').style.width=(d.length?done.length/d.length*100:0)+'%';
-      document.getElementById('todo').innerHTML=d.map(function(r){
-        var s=r['狀態']||'', isDone=s&&s!=='待辦';
-        return '<div class="tk"><span class="s '+(isDone?'s-done':'s-todo')+'">'+(s||'待辦')+'</span>'+
-          '<span>'+(r['待辦事項']||'')+'</span>'+(r['負責人']?'<span class="who">'+r['負責人']+'</span>':'')+'</div>';
-      }).join('')||'<div class="ld">沒有資料</div>';
-    }catch(e){ document.getElementById('todo').innerHTML='<div class="ld">讀取失敗：'+e.message+'</div>'; }
-  }
-  async function loadOwners(){
-    var box=document.getElementById('owners');
-    var CATS=['住宿','交通','票券','雪具','課程','餐飲'];  // 視為「單一負責人分工」的分類
-    try{
-      var rows=[];
-      // ✈️ 航班（各自填）— 取自航班進度分頁，顯示四人名字＋紅綠燈
-      try{
-        var f=await getRows(PUB.flight,0);
-        f=f.filter(function(r){return (r['團員']||'').trim();});
-        var ok=function(s){return /已填|已購|完成|ok/i.test(s||'');};
-        var fok=f.filter(function(r){return ok(r['狀態']);});
-        var stF=document.getElementById('stFlight');   // 同步更新籌備進度的「航班已填」
-        if(stF){ stF.textContent=fok.length+' / '+f.length; stF.className='n '+(f.length&&fok.length===f.length?'good':'miss'); }
-        var lights=f.map(function(r){return (r['團員']||'')+(ok(r['狀態'])?'🟢':'🔴');}).join('　');
-        rows.push('<div class="tk"><span class="s '+(f.length&&fok.length===f.length?'s-done':'s-todo')+'">'+
-          fok.length+' / '+f.length+'</span><span>✈️ 航班</span>'+
-          '<span class="who" style="white-space:normal">'+lights+'</span></div>');
-      }catch(e){}
-      // 其餘單一負責人分工 — 取自待辦分頁
-      var d=await getRows(PUB.todo,1);
-      d=d.filter(function(r){return /^\d+$/.test(r['#']||'') && CATS.indexOf((r['分類']||'').trim())>=0;});
-      var assigned=d.filter(function(r){return (r['負責人']||'').trim();});
-      document.getElementById('ownBar').style.width=(d.length?assigned.length/d.length*100:0)+'%';
-      document.getElementById('ownSum').innerHTML='已指派負責人 <b'+(assigned.length===d.length&&d.length?' class="good"':' class="miss"')+'>'+assigned.length+' / '+d.length+'</b>';
-      rows=rows.concat(d.map(function(r){
-        var s=r['狀態']||'', isDone=s&&s!=='待辦', who=(r['負責人']||'').trim();
-        return '<div class="tk"><span class="s '+(isDone?'s-done':'s-todo')+'">'+(s||'待辦')+'</span>'+
-          '<span>'+(r['待辦事項']||'')+'</span>'+
-          '<span class="who"'+(who?'':' style="color:var(--bad)"')+'>'+(who||'未指派')+'</span></div>';
-      }));
-      box.innerHTML=rows.join('')||'<div class="ld">沒有資料</div>';
-    }catch(e){ box.innerHTML='<div class="ld">讀取失敗：'+e.message+'</div>'; }
-  }
-  function loadAll(){
-    countdown(); loadItin(); loadTodo(); loadOwners();
-    document.getElementById('upd').textContent='更新於 '+new Date().toLocaleString('zh-TW');
-  }
-  loadAll();
-</script>
+  <!-- ===================== 行程 ITINERARY · DAY→NIGHT SCENE ===================== -->
+  <section class="scene" id="itinerary" data-scene="daynight" data-screen-label="Day to night · 日夜" style="height: 420vh;">
+    <div class="scene-sticky">
+      <div class="scene-bg bg-day" data-zfrom="1.05" data-zto="1.16" data-yto="-2">
+        <img src="img/ski-powder.jpg" alt="清晨滑雪">
+      </div>
+      <div class="scene-bg bg-night" data-zfrom="1.16" data-zto="1.05" data-yto="0" style="opacity:0;">
+        <img src="img/night-slope.jpg" alt="夜晚雪道俯瞰旭川市夜景">
+      </div>
+      <div class="scene-scrim"></div>
+      <div class="scene-night-veil" id="nightVeil"></div>
+      <div class="scene-content">
+        <div class="scene-frames">
+          <div class="frame" data-frame="0">
+            <p class="scene-eyebrow">ITINERARY / 行程</p>
+            <p class="scene-line">清晨第一道纜車。</p>
+          </div>
+          <div class="frame" data-frame="1">
+            <p class="scene-line">滑過整個白天，</p>
+          </div>
+          <div class="frame" data-frame="2">
+            <p class="scene-line">直到城市亮起燈火。</p>
+            <p class="scene-sub">七天六夜，滑雪 5 天，含一到兩日富良野遠征。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-soft" data-screen-label="Itinerary list · 逐日">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow mono reveal">DAY BY DAY / 逐日安排</p>
+        <h2 class="section-title reveal">七天六夜，逐日安排。</h2>
+        <p class="section-lead reveal">時間為大略安排，冬季請以乗換案内當日班次為準。</p>
+      </div>
+      <ol class="timeline" id="timeline"></ol>
+    </div>
+  </section>
+
+  <!-- ===================== 待辦 CHECKLIST ===================== -->
+  <section class="section" id="checklist" data-screen-label="Checklist · 待辦">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow mono reveal">CHECKLIST / 待辦</p>
+        <h2 class="section-title reveal">出發前，把這些搞定。</h2>
+      </div>
+      <div class="checklist-layout">
+        <div class="left-stack">
+          <div class="progress-card reveal" id="progressCard"></div>
+          <div class="flight-card reveal" id="flightCard"></div>
+        </div>
+        <div class="todo-list reveal" id="todoList"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 預算 + 提醒（dark band） ===================== -->
+  <section class="section section-dark" id="budget" data-screen-label="Budget · 預算">
+    <div class="container">
+      <div class="dark-grid">
+        <div class="budget-block reveal">
+          <p class="eyebrow mono">BUDGET / 每人粗估</p>
+          <h2 class="section-title dark">每人約 <span class="mono">¥139,000</span>＋租車。</h2>
+          <p class="section-lead dark">≈ NT$29,000＋租車。機票各付各的，共同墊付走 Splitwise。</p>
+          <div class="budget-rows" id="budgetRows"></div>
+        </div>
+        <div class="reminders-block reveal">
+          <p class="eyebrow mono">REMINDERS / 提醒</p>
+          <div class="reminders" id="reminders"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="brand-name">北海道滑雪 <span class="brand-year">2026</span> ❄</span>
+      <span class="footer-note mono">公開進度看板 · 不含敏感資料 · 旭川據點</span>
+    </div>
+  </footer>
+
+</main>
+
+<!-- hover tooltip (single, repositioned) -->
+<div class="hotspot-tip" id="hotspotTip" role="tooltip" aria-hidden="true"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script src="scenes.js"></script>
 </body>
 </html>
